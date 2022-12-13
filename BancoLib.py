@@ -33,10 +33,13 @@ class ContaBonificada(Conta):
     def __init__(self, numConta, bonus):
         self.bonus=bonus
         super().__init__(numConta)
+    
+    def depositar(self, numConta, bonus):
+        for conta in self.contas:
+            if conta.numero==numConta: 
+                conta.deposite(valor+bonus)
+        super().depositar()
 
-    def deposite(self,valor,bonus):
-        self.saldo= self.saldo+ (valor-valor*0.1)*0.1
-        super().deposite(bonus)
         
 class Banco():
     def __init__(self,nome):
@@ -58,7 +61,7 @@ class Banco():
         self.contas.append(p)
         return num
 
-    def criarContaBonificada(self,percentual):
+    def criarContaBonificada(self,bonus):
         num=random.randint(0,1000)
         cb=ContaBonificada(num,bonus)
         self.contas.append(cb)
@@ -70,12 +73,10 @@ class Banco():
                 return conta.saldo
         return -1
         
-    def depositar(self, numConta, bonus):
+    def depositar(self, numConta):
         for conta in self.contas:
             if conta.numero==numConta: 
                 conta.deposite(valor)
-                if conta.numero==ContaBonificada:
-                    valor=bonus
 
     def sacar(self, numConta,valor):
         for conta in self.contas:

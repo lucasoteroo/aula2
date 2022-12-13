@@ -26,7 +26,7 @@ while escolha>0:
             percentual=int(input("digite quanto gostaria de render"))
             numConta=bancoUfrpe.criarPoupanca(percentual)
         else:
-            numConta=bancoUfrpe.criarContaBonificada(bonus)
+            numConta=bancoUfrpe.criarContaBonificada()
         print("Conta criada ", numConta)
     elif escolha ==2:
        
