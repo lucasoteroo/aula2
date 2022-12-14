@@ -4,9 +4,12 @@ class Conta():
     def __init__(self, numConta):
         self.numero=numConta
         self.saldo=0
+        self.bonus=0
+        
 
     def deposite(self,valor):
         self.saldo= self.saldo+ (valor-valor*0.1)
+        self.bonus=valor*0.0001
             
 
     def sacar(self,valor):
@@ -30,21 +33,17 @@ class Poupanca(Conta):
 
 class ContaBonificada(Conta):
 
-    def __init__(self, numConta, bonus):
-        self.bonus=bonus
-        super().__init__(numConta)
-    
-    def depositar(self, numConta, bonus):
-        for conta in self.contas:
-            if conta.numero==numConta: 
-                conta.deposite(valor+bonus)
-        super().depositar()
+    def renderB(self):
+        self.bonus=self.bonus
+        self.saldo=self.saldo+self.bonus
+        self.bonus=0
 
         
 class Banco():
-    def __init__(self,nome):
-        self.nome=nome
-        self.contas=[]
+
+    def __init__(self, nome):
+        self.nome = nome
+        self.contas = []
 
     def getNome(self):
         return self.nome
@@ -61,9 +60,9 @@ class Banco():
         self.contas.append(p)
         return num
 
-    def criarContaBonificada(self,bonus):
+    def criarContaBonificada(self):
         num=random.randint(0,1000)
-        cb=ContaBonificada(num,bonus)
+        cb=ContaBonificada(num)
         self.contas.append(cb)
         return num
 
@@ -73,7 +72,7 @@ class Banco():
                 return conta.saldo
         return -1
         
-    def depositar(self, numConta):
+    def depositar(self, numConta,valor):
         for conta in self.contas:
             if conta.numero==numConta: 
                 conta.deposite(valor)
@@ -87,6 +86,13 @@ class Banco():
         for i in self.contas:
             if i.numero==numConta and isinstance(i,Poupanca):
                     i.render()
+                    return True
+        return False
+    
+    def renderCBonificada(self, numConta):
+        for i in self.contas:
+            if i.numero==numConta and isinstance(i,ContaBonificada):
+                    i.renderB()
                     return True
         return False
 
